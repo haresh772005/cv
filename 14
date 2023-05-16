@@ -1,0 +1,23 @@
+import cv2
+import numpy as np
+
+# Load the image
+image = cv2.imread("C:/Users/hares/Downloads/tree.jpeg")
+
+# Define the source points (coordinates of the corners of a rectangle)
+src_points = np.float32([[0, 0], [image.shape[1] - 1, 0], [image.shape[1] - 1, image.shape[0] - 1], [0, image.shape[0] - 1]])
+
+# Define the destination points (coordinates to which the source points will be mapped)
+dst_points = np.float32([[100, 100], [image.shape[1] - 101, 150], [image.shape[1] - 301, image.shape[0] - 201], [300, image.shape[0] - 301]])
+
+# Compute the homographic matrix
+homography_matrix, _ = cv2.findHomography(src_points, dst_points)
+
+# Apply the homographic transformation
+output_image = cv2.warpPerspective(image, homography_matrix, (image.shape[1], image.shape[0]))
+
+# Display the original and transformed images
+cv2.imshow('Original Image', image)
+cv2.imshow('Transformed Image', output_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
